@@ -9,17 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace Project_Starlord.Controllers
 {
     [Route("api/[controller]")]
-public class Login : Controller
+public class LoginController : Controller
 {
-    // GET: api/<controller>
-    //[HttpGet]
-    //public IEnumerable<string> Get()
-    //{
-    //    return new string[] { "value1", "value2" };
-    //}
+        // GET: api/<controller>
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
 
-    // GET api/<controller>/5
-    [HttpGet("{id}")]
+        // GET api/<controller>/5
+        [HttpGet("{id}")]
     public string Get(int id)
     {
         return $"value + {id}";

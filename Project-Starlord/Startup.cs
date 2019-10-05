@@ -42,8 +42,6 @@ namespace Project_Starlord
             }
 
             app.UseHttpsRedirection();
-            //TODO Check if needed
-            //app.UseMvc();
         }
     }
 }
