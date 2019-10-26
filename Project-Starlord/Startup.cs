@@ -26,18 +26,18 @@ namespace Project_Starlord
         {
             services.AddCors();
 
-            services.AddDbContext<UserContext>(options =>
+            services.AddDbContext<MyDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Database")));
 
             services.AddControllers();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddSwaggerGen(x => x.SwaggerDoc("v1", new Info
-            {
-                Title = "Wanderer API",
-                Version = "v1"
-            }));
+            //services.AddSwaggerGen(x => x.SwaggerDoc("v1", new Info
+            //{
+            //    Title = "Wanderer API",
+            //    Version = "v1"
+            //}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,11 +55,11 @@ namespace Project_Starlord
 
             app.UseStaticFiles();
 
-            var swaggerOptions = new SwaggerOptions();
-            Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
+            //var swaggerOptions = new SwaggerOptions();
+            //Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
 
-            app.UseSwagger(option => { option.RouteTemplate = swaggerOptions.JsonRoute; });
-            app.UseSwaggerUI(option => { option.SwaggerEndpoint(swaggerOptions.UIEndpoint, swaggerOptions.Description); });
+            //app.UseSwagger(option => { option.RouteTemplate = swaggerOptions.JsonRoute; });
+            //app.UseSwaggerUI(option => { option.SwaggerEndpoint(swaggerOptions.UIEndpoint, swaggerOptions.Description); });
 
             app.UseRouting();
 

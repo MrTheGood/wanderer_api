@@ -12,11 +12,11 @@ namespace Project_Starlord.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserModelsController : ControllerBase
+    public class AccountController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly MyDbContext _context;
 
-        public UserModelsController(UserContext context)
+        public AccountController(MyDbContext context)
         {
             _context = context;
         }

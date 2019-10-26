@@ -1,15 +1,11 @@
-﻿using Project_Starlord.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using Project_Starlord.Models;
 
 namespace Project_Starlord.Data
 {
     public class MyDbContext : DbContext
     {
-        public MyDbContext() { }
+        public MyDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<UserModel> Users { get; set; }
     }
