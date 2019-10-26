@@ -26,8 +26,10 @@ namespace Project_Starlord
         {
             services.AddCors();
 
-            services.AddDbContext<MyDbContext>(options =>
+            services.AddDbContext<UserContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Database")));
+
+            services.AddControllers();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
