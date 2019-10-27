@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Project_Starlord.Data;
 using Project_Starlord.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
 using SwaggerOptions = Project_Starlord.Options.SwaggerOptions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Project_Starlord
 {
