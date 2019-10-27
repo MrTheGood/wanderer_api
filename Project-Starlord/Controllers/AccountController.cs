@@ -114,13 +114,13 @@ namespace Project_Starlord.Controllers
 
         // POST: api/UserModels
         [HttpPost]
-        public Task<ActionResult<string>> Login(UserModel userModel)
+        public async Task<ActionResult<string>> Login(UserModel userModel)
         {
             var user = _userService.Authenticate(userModel.Username, userModel.Password);
 
             if (user == null)
             {
-                return null; // BadRequest("Invalid username or password");
+                return null;
             }
 
             return user.Token;
