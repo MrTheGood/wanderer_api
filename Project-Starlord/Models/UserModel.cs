@@ -21,5 +21,6 @@ namespace Project_Starlord.Models
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        public string Token { get; set; }
     }
 }

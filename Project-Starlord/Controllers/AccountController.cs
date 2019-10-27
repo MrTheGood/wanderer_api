@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace Project_Starlord.Controllers
         }
 
         // GET: api/UserModels
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetUsers()
         {
@@ -29,6 +31,7 @@ namespace Project_Starlord.Controllers
         }
 
         // GET: api/UserModels/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserModel>> GetUserModel(int id)
         {
@@ -45,6 +48,7 @@ namespace Project_Starlord.Controllers
         // PUT: api/UserModels/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserModel(int id, UserModel userModel)
         {
@@ -77,6 +81,7 @@ namespace Project_Starlord.Controllers
         // POST: api/UserModels
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<UserModel>> PostUserModel(UserModel userModel)
         {
@@ -87,6 +92,7 @@ namespace Project_Starlord.Controllers
         }
 
         // DELETE: api/UserModels/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<UserModel>> DeleteUserModel(int id)
         {
