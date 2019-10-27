@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Project_Starlord.Data;
 using Project_Starlord.Helpers;
 using Project_Starlord.Models;
 
@@ -19,27 +20,19 @@ namespace Project_Starlord.Services
 
     public class UserService : IUserService
     {
-        private List<UserModel> _users = new List<UserModel>
-        {
-            //todo: remove test user
-            new UserModel
-            {
-                Id = 0, Username = "David Hasselhof", Email = "test@wanderer.app",
-                Password = "Geheim123!"
-            }
-        };
-
         private readonly AppSettings _appSettings;
+        private readonly MyDbContext _context;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(IOptions<AppSettings> appSettings, MyDbContext context)
         {
             _appSettings = appSettings.Value;
+            _context = context;
         }
 
         public UserModel Authenticate(string username, string password)
         {
             var user =
-                _users.SingleOrDefault(x => x.Username == username && x.Password == password);
+                _context.Users.SingleOrDefault(x => x.Username == username && x.Password == password);
 
             if (user == null)
                 return null;
@@ -58,12 +51,14 @@ namespace Project_Starlord.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
 
+            _context.SaveChanges();
+
             return user.WithoutPassword();
         }
 
         public IEnumerable<UserModel> GetAll()
         {
-            return _users.WithoutPasswords();
+            return _context.Users.WithoutPasswords();
         }
     }
 }

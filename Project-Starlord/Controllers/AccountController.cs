@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_Starlord.Data;
 using Project_Starlord.Models;
+using Project_Starlord.Services;
 
 namespace Project_Starlord.Controllers
 {
@@ -16,10 +18,12 @@ namespace Project_Starlord.Controllers
     public class AccountController : ControllerBase
     {
         private readonly MyDbContext _context;
+        private readonly IUserService _userService;
 
-        public AccountController(MyDbContext context)
+        public AccountController(MyDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: api/UserModels
@@ -88,7 +92,7 @@ namespace Project_Starlord.Controllers
             _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserModel", new { id = userModel.Id }, userModel);
+            return CreatedAtAction(nameof(GetUserModel), new { id = userModel.Id }, userModel);
         }
 
         // DELETE: api/UserModels/5
@@ -103,6 +107,46 @@ namespace Project_Starlord.Controllers
             }
 
             _context.Users.Remove(userModel);
+            await _context.SaveChangesAsync();
+
+            return userModel;
+        }
+
+        // POST: api/UserModels
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult<string>> Login(UserModel userModel)
+        {
+            var user = _userService.Authenticate(userModel.Username, userModel.Password);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user.Token;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Register")]
+        public async Task<ActionResult<UserModel>> Register(UserModel userModel)
+        {
+            if (String.IsNullOrWhiteSpace(userModel.Password))
+            {
+                return null;
+            }
+            if (String.IsNullOrWhiteSpace(userModel.Username))
+            {
+                return null;
+            }
+            if (String.IsNullOrWhiteSpace(userModel.Email))
+            {
+                return null;
+            }
+
+            _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
 
             return userModel;
