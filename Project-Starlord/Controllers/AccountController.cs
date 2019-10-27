@@ -18,9 +18,9 @@ namespace Project_Starlord.Controllers
     public class AccountController : ControllerBase
     {
         private readonly MyDbContext _context;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public AccountController(MyDbContext context, UserService userService)
+        public AccountController(MyDbContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
@@ -92,7 +92,7 @@ namespace Project_Starlord.Controllers
             _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUserModel), new {id = userModel.Id}, userModel);
+            return CreatedAtAction(nameof(GetUserModel), new { id = userModel.Id }, userModel);
         }
 
         // DELETE: api/UserModels/5
@@ -113,7 +113,9 @@ namespace Project_Starlord.Controllers
         }
 
         // POST: api/UserModels
+        [AllowAnonymous]
         [HttpPost]
+        [Route("Login")]
         public async Task<ActionResult<string>> Login(UserModel userModel)
         {
             var user = _userService.Authenticate(userModel.Username, userModel.Password);
@@ -124,6 +126,30 @@ namespace Project_Starlord.Controllers
             }
 
             return user.Token;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Register")]
+        public async Task<ActionResult<UserModel>> Register(UserModel userModel)
+        {
+            if (String.IsNullOrWhiteSpace(userModel.Password))
+            {
+                return null;
+            }
+            if (String.IsNullOrWhiteSpace(userModel.Username))
+            {
+                return null;
+            }
+            if (String.IsNullOrWhiteSpace(userModel.Email))
+            {
+                return null;
+            }
+
+            _context.Users.Add(userModel);
+            await _context.SaveChangesAsync();
+
+            return userModel;
         }
 
         private bool UserModelExists(int id)

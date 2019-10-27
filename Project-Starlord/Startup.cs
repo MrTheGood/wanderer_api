@@ -13,6 +13,7 @@ using Project_Starlord.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
 using SwaggerOptions = Project_Starlord.Options.SwaggerOptions;
 using Microsoft.IdentityModel.Tokens;
+using Project_Starlord.Services;
 
 namespace Project_Starlord
 {
@@ -57,6 +58,8 @@ namespace Project_Starlord
                 });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddScoped<IUserService, UserService>();
 
             //services.AddSwaggerGen(x => x.SwaggerDoc("v1", new Info
             //{
