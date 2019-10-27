@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_Starlord.Data;
 using Project_Starlord.Models;
+using Project_Starlord.Services;
 
 namespace Project_Starlord.Controllers
 {
@@ -16,10 +18,12 @@ namespace Project_Starlord.Controllers
     public class AccountController : ControllerBase
     {
         private readonly MyDbContext _context;
+        private readonly UserService _userService;
 
-        public AccountController(MyDbContext context)
+        public AccountController(MyDbContext context, UserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: api/UserModels
@@ -88,7 +92,7 @@ namespace Project_Starlord.Controllers
             _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserModel", new { id = userModel.Id }, userModel);
+            return CreatedAtAction(nameof(GetUserModel), new {id = userModel.Id}, userModel);
         }
 
         // DELETE: api/UserModels/5
@@ -106,6 +110,20 @@ namespace Project_Starlord.Controllers
             await _context.SaveChangesAsync();
 
             return userModel;
+        }
+
+        // POST: api/UserModels
+        [HttpPost]
+        public Task<ActionResult<string>> Login(UserModel userModel)
+        {
+            var user = _userService.Authenticate(userModel.Username, userModel.Password);
+
+            if (user == null)
+            {
+                return null; // BadRequest("Invalid username or password");
+            }
+
+            return user.Token;
         }
 
         private bool UserModelExists(int id)
