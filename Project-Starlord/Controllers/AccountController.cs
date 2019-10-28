@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Project_Starlord.Data;
 using Project_Starlord.Models;
 using Project_Starlord.Services;
+using Project_Starlord.Helpers;
 
 namespace Project_Starlord.Controllers
 {
@@ -145,6 +146,8 @@ namespace Project_Starlord.Controllers
             {
                 return null;
             }
+
+            userModel.HashPassword();
 
             _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
