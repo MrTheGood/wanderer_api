@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Project_Starlord.Data;
 using Project_Starlord.Models;
 using Project_Starlord.Services;
@@ -92,7 +94,7 @@ namespace Project_Starlord.Controllers
             _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUserModel), new { id = userModel.Id }, userModel);
+            return CreatedAtAction(nameof(GetUserModel), new {id = userModel.Id}, userModel);
         }
 
         // DELETE: api/UserModels/5
@@ -142,10 +144,12 @@ namespace Project_Starlord.Controllers
             {
                 return null;
             }
+
             if (String.IsNullOrWhiteSpace(userModel.Username))
             {
                 return null;
             }
+
             if (String.IsNullOrWhiteSpace(userModel.Email))
             {
                 return null;
@@ -157,6 +161,95 @@ namespace Project_Starlord.Controllers
             await _context.SaveChangesAsync();
 
             return userModel;
+        }
+
+        [HttpPost]
+        [Route("ForgotPassword")]
+        public async Task<ActionResult<IActionResult>> ForgotPassword(string email)
+        {
+            if (String.IsNullOrWhiteSpace(email))
+            {
+                return BadRequest();
+            }
+
+            if (_context.Users.Any(e => e.Email == email))
+            {
+                ResetTokenModel model = new ResetTokenModel
+                {
+                    Email = email,
+                    Expires = DateTime.UtcNow.AddHours(24),
+                    IsTokenUsed = false
+                };
+
+                // Generate reset token
+                byte[] resetTokenBytes;
+                new RNGCryptoServiceProvider().GetBytes(resetTokenBytes = new byte[16]);
+                model.Token = Convert.ToBase64String(resetTokenBytes);
+
+                //todo: send reset email or whatever
+                // i really don't know what to do here..
+                string message =
+                    "Hi! To reset your password you need to open the following link within 24h: \n\n https://wanderer.app/passwordReset?token=" +
+                    model.Token;
+
+
+                _context.ResetTokens.Add(model.HashToken());
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        [Route("ResetPassword")]
+        public async Task<ActionResult<UserModel>> ResetPassword(int id, string resetToken,
+            string newPassword)
+        {
+            if (!_context.ResetTokens.Any(e => e.Id == id))
+            {
+                return NotFound();
+            }
+
+            ResetTokenModel tokenModel = _context.ResetTokens.First(e => e.Id == id);
+
+            if (DateTime.Now - tokenModel.Expires > TimeSpan.Zero || tokenModel.IsTokenUsed)
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+
+            byte[] hashBytes = Convert.FromBase64String(tokenModel.Token);
+            /* Get the salt */
+            byte[] salt = new byte[16];
+            Array.Copy(hashBytes, 0, salt, 0, 16);
+            /* Compute the hash on the password the user entered */
+            var pbkdf2 = new Rfc2898DeriveBytes(resetToken, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            /* Compare the results */
+            for (int i = 0; i < 20; i++)
+                if (hashBytes[i + 16] != hash[i])
+                    throw new UnauthorizedAccessException();
+
+
+            // So the token exists, is not expired or used, and matches. Time to change the password.
+            if (String.IsNullOrWhiteSpace(newPassword))
+            {
+                return BadRequest();
+            }
+
+            UserModel user = _context.Users.First(it => it.Email == tokenModel.Email);
+            user.Password = newPassword;
+            user.HashPassword();
+            _context.Users.Update(user);
+
+            tokenModel.IsTokenUsed = true;
+            _context.ResetTokens.Update(tokenModel);
+
+            await _context.SaveChangesAsync();
+
+            return user.WithoutPassword();
         }
 
         [AllowAnonymous]
