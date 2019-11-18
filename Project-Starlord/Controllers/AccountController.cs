@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_Starlord.Data;
@@ -159,6 +157,43 @@ namespace Project_Starlord.Controllers
             await _context.SaveChangesAsync();
 
             return userModel;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("GetPinPoints")]
+        public async Task<ActionResult<List<PinPointModel>>> GetPinPoints(int userId)
+        {
+
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var trips = _context.Trips.Where(x => x.User == user);
+
+            if (!trips.Any())
+            {
+                return BadRequest();
+            }
+
+            var pinPoints = _context.PinPoints.Where(x => trips.Contains(x.Trip));
+
+            return pinPoints.ToList();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("SavePinPoints")]
+        public async Task<ActionResult<PinPointModel>> SavePinPoints(PinPointModel pinPoint)
+        {
+            _context.PinPoints.Add(pinPoint);
+
+            await _context.SaveChangesAsync();
+
+            return pinPoint;
         }
 
         private bool UserModelExists(int id)
