@@ -289,6 +289,18 @@ namespace Project_Starlord.Controllers
             return pinPoint;
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("DeletePinPoints")]
+        public async Task<ActionResult<PinPointModel>> DeletePinPoints(PinPointModel pinPoint)
+        {
+            _context.PinPoints.Remove(pinPoint);
+
+            await _context.SaveChangesAsync();
+
+            return pinPoint;
+        }
+
         private bool UserModelExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
