@@ -8,5 +8,7 @@ namespace Project_Starlord.Data
         public MyDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<TripModel> Trips { get; set; }
+        public DbSet<PinPointModel> PinPoints { get; set; }
     }
 }
