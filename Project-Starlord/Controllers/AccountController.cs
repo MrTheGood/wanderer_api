@@ -150,16 +150,16 @@ namespace Project_Starlord.Controllers
         [Authorize]
         [HttpGet("{query}")]
         [Route("Search")]
-        public async Task<ActionResult<UserModel>> SearchUser(string query)
+        public async Task<ActionResult<List<UserModel>>> SearchUser(string query)
         {
-            var userModel = await _context.Users.FirstOrDefaultAsync(x => x.Username.Contains(query));
+            var userModels = await _context.Users.Where(x => x.Username.Contains(query)).ToListAsync();
 
-            if (userModel == null)
+            if (userModels.Count == 0)
             {
                 return NotFound();
             }
 
-            return userModel;
+            return userModels;
         }
 
         [HttpPost]
