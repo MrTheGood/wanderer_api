@@ -147,6 +147,21 @@ namespace Project_Starlord.Controllers
             return userModel;
         }
 
+        [Authorize]
+        [HttpGet("{query}")]
+        [Route("Search")]
+        public async Task<ActionResult<UserModel>> SearchUser(string query)
+        {
+            var userModel = await _context.Users.FirstOrDefaultAsync(x => x.Username.Contains(query));
+
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+
+            return userModel;
+        }
+
         [HttpPost]
         [Route("ForgotPassword")]
         public async Task<ActionResult<IActionResult>> ForgotPassword(string email)
