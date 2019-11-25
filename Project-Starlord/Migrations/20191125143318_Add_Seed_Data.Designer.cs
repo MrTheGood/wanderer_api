@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_Starlord.Data;
 
 namespace Project_Starlord.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191125143318_Add_Seed_Data")]
+    partial class Add_Seed_Data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,7 @@ namespace Project_Starlord.Migrations
                             Id = 1,
                             Latitude = 50m,
                             Longitude = 20m,
-                            Timestamp = new DateTime(2019, 11, 25, 15, 39, 28, 651, DateTimeKind.Local).AddTicks(2185),
+                            Timestamp = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(5838),
                             TripId = 1
                         },
                         new
@@ -58,7 +60,7 @@ namespace Project_Starlord.Migrations
                             Id = 2,
                             Latitude = 40m,
                             Longitude = 60m,
-                            Timestamp = new DateTime(2019, 11, 25, 15, 39, 28, 651, DateTimeKind.Local).AddTicks(4098),
+                            Timestamp = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(7791),
                             TripId = 1
                         },
                         new
@@ -66,7 +68,7 @@ namespace Project_Starlord.Migrations
                             Id = 3,
                             Latitude = 300m,
                             Longitude = 12m,
-                            Timestamp = new DateTime(2019, 11, 25, 15, 39, 28, 651, DateTimeKind.Local).AddTicks(4147),
+                            Timestamp = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(7908),
                             TripId = 1
                         },
                         new
@@ -74,7 +76,7 @@ namespace Project_Starlord.Migrations
                             Id = 4,
                             Latitude = 280m,
                             Longitude = 47m,
-                            Timestamp = new DateTime(2019, 11, 25, 15, 39, 28, 651, DateTimeKind.Local).AddTicks(4152),
+                            Timestamp = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(7914),
                             TripId = 1
                         },
                         new
@@ -82,7 +84,7 @@ namespace Project_Starlord.Migrations
                             Id = 5,
                             Latitude = 792m,
                             Longitude = 147m,
-                            Timestamp = new DateTime(2019, 11, 25, 15, 39, 28, 651, DateTimeKind.Local).AddTicks(4156),
+                            Timestamp = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(7918),
                             TripId = 2
                         },
                         new
@@ -90,7 +92,7 @@ namespace Project_Starlord.Migrations
                             Id = 6,
                             Latitude = 123m,
                             Longitude = 862m,
-                            Timestamp = new DateTime(2019, 11, 25, 15, 39, 28, 651, DateTimeKind.Local).AddTicks(4166),
+                            Timestamp = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(7931),
                             TripId = 2
                         },
                         new
@@ -98,7 +100,7 @@ namespace Project_Starlord.Migrations
                             Id = 7,
                             Latitude = 1200m,
                             Longitude = 1300m,
-                            Timestamp = new DateTime(2019, 11, 25, 15, 39, 28, 651, DateTimeKind.Local).AddTicks(4169),
+                            Timestamp = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(7938),
                             TripId = 2
                         });
                 });
@@ -159,7 +161,7 @@ namespace Project_Starlord.Migrations
                         {
                             Id = 1,
                             TimestampFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimestampTo = new DateTime(2019, 11, 25, 15, 39, 28, 644, DateTimeKind.Local).AddTicks(8969),
+                            TimestampTo = new DateTime(2019, 11, 25, 15, 33, 17, 555, DateTimeKind.Local).AddTicks(7724),
                             TripName = "trip1",
                             UserId = 1
                         },
@@ -167,7 +169,7 @@ namespace Project_Starlord.Migrations
                         {
                             Id = 2,
                             TimestampFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimestampTo = new DateTime(2019, 11, 25, 15, 39, 28, 650, DateTimeKind.Local).AddTicks(7662),
+                            TimestampTo = new DateTime(2019, 11, 25, 15, 33, 17, 559, DateTimeKind.Local).AddTicks(2166),
                             TripName = "trip2",
                             UserId = 2
                         });
@@ -203,14 +205,14 @@ namespace Project_Starlord.Migrations
                         {
                             Id = 2,
                             Email = "007@hr.nl",
-                            Password = "saLye4TVUGn83DoIqmVxMUcjX+HuKahEuE7C/rk1FrhvCi8p",
+                            Password = "geheim",
                             Username = "SecretAgent"
                         },
                         new
                         {
                             Id = 1,
                             Email = "admin@admin.nl",
-                            Password = "5DSldrrtWHc8L8QBXQ561zR+MEiR+JQmIRtvWiXCrF7RJoVx",
+                            Password = "geheim",
                             Username = "Admin"
                         });
                 });
