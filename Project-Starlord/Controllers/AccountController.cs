@@ -154,7 +154,7 @@ namespace Project_Starlord.Controllers
         {
             var userModels = await _context.Users.Where(x => x.Username.Contains(query)).ToListAsync();
 
-            if (userModels.Count == 0)
+            if (!userModels.Any())
             {
                 return NotFound();
             }
