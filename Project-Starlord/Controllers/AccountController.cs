@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Project_Starlord.Data;
 using Project_Starlord.Models;
 using Project_Starlord.Services;
@@ -22,21 +21,6 @@ namespace Project_Starlord.Controllers
         private readonly MyDbContext _context;
         private readonly IUserService _userService;
 
-        public AccountController(MyDbContext context, IUserService userService)
-        {
-            _context = context;
-            _userService = userService;
-        }
-
-        // GET: api/UserModels
-        [Authorize]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
-        // GET: api/UserModels/5
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserModel>> GetUserModel(int id)
@@ -226,7 +210,7 @@ namespace Project_Starlord.Controllers
             Array.Copy(hashBytes, 0, salt, 0, 16);
             /* Compute the hash on the password the user entered */
             var pbkdf2 = new Rfc2898DeriveBytes(resetToken, salt, 10000);
-            byte[] hash = pbkdf2.GetBytes(20);
+            byte[] hash = pbkdf2.GetBytes(100);
             /* Compare the results */
             for (int i = 0; i < 20; i++)
                 if (hashBytes[i + 16] != hash[i])
@@ -250,55 +234,6 @@ namespace Project_Starlord.Controllers
             await _context.SaveChangesAsync();
 
             return user.WithoutPassword();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("GetPinPoints")]
-        public async Task<ActionResult<List<PinPointModel>>> GetPinPoints(int userId)
-        {
-
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
-
-            if (user == null)
-            {
-                return BadRequest();
-            }
-
-            var trips = _context.Trips.Where(x => x.User == user);
-
-            if (!trips.Any())
-            {
-                return BadRequest();
-            }
-
-            var pinPoints = _context.PinPoints.Where(x => trips.Contains(x.Trip));
-
-            return pinPoints.ToList();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("SavePinPoints")]
-        public async Task<ActionResult<PinPointModel>> SavePinPoints(PinPointModel pinPoint)
-        {
-            _context.PinPoints.Add(pinPoint);
-
-            await _context.SaveChangesAsync();
-
-            return pinPoint;
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("DeletePinPoints")]
-        public async Task<ActionResult<PinPointModel>> DeletePinPoints(PinPointModel pinPoint)
-        {
-            _context.PinPoints.Remove(pinPoint);
-
-            await _context.SaveChangesAsync();
-
-            return pinPoint;
         }
 
         private bool UserModelExists(int id)

@@ -9,7 +9,6 @@ namespace Project_Starlord.Models
         public int Id { get; set; }
         [Required]
         public int TripId { get; set; }
-        [Required]
         public TripModel Trip { get; set; }
         [Required]
         public decimal Longitude { get; set; }
