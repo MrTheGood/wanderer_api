@@ -148,11 +148,11 @@ namespace Project_Starlord.Controllers
         }
 
         [Authorize]
-        [HttpGet("{query}")]
+        [HttpGet("{filterValue}")]
         [Route("Search")]
-        public async Task<ActionResult<List<UserModel>>> SearchUser(string query)
+        public async Task<ActionResult<List<UserModel>>> SearchUser(string filterValue)
         {
-            var userModels = await _context.Users.Where(x => x.Username.Contains(query)).ToListAsync();
+            var userModels = await _context.Users.Where(x => x.Username.Contains(filterValue)).ToListAsync();
 
             if (!userModels.Any())
             {
