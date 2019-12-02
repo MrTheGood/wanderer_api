@@ -21,6 +21,12 @@ namespace Project_Starlord.Controllers
         private readonly MyDbContext _context;
         private readonly IUserService _userService;
 
+        public AccountController(MyDbContext context, IUserService userService)
+        {
+            _context = context;
+            _userService = userService;
+        }
+
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UserModel>> GetUserModel(int id)
@@ -78,7 +84,7 @@ namespace Project_Starlord.Controllers
             _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUserModel), new {id = userModel.Id}, userModel);
+            return CreatedAtAction(nameof(GetUserModel), new { id = userModel.Id }, userModel);
         }
 
         // DELETE: api/UserModels/5
@@ -101,7 +107,7 @@ namespace Project_Starlord.Controllers
         // POST: api/UserModels
         [AllowAnonymous]
         [HttpPost]
-        [Route("Login")]
+        [Route("login")]
         public async Task<ActionResult<string>> Login(UserModel userModel)
         {
             var user = _userService.Authenticate(userModel.Username, userModel.Password);
@@ -147,11 +153,16 @@ namespace Project_Starlord.Controllers
             return userModel;
         }
 
-        [Authorize]
-        [HttpGet("{filterValue}")]
+        [AllowAnonymous]
+        [HttpPost]
         [Route("Search")]
-        public async Task<ActionResult<List<UserModel>>> SearchUser(string filterValue)
+        public async Task<ActionResult<string>> SearchUser(string filterValue)
         {
+            if (filterValue == null)
+            {
+                filterValue = "";
+            }
+
             var userModels = await _context.Users.Where(x => x.Username.Contains(filterValue)).ToListAsync();
 
             if (!userModels.Any())
@@ -159,7 +170,14 @@ namespace Project_Starlord.Controllers
                 return NotFound();
             }
 
-            return userModels;
+            var result = new List<UserModel>();
+
+            foreach (var userModel in userModels)
+            {
+                result.Add(userModel.WithoutPassword());
+            }
+
+            return JsonConvert.SerializeObject(result);
         }
 
         [HttpPost]

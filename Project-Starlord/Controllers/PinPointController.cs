@@ -16,6 +16,11 @@ namespace Project_Starlord.Controllers
     {
         private readonly MyDbContext _context;
 
+        public PinPointController(MyDbContext context)
+        {
+            _context = context;
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("GetPinPoints")]

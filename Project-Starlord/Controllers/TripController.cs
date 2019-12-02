@@ -16,6 +16,11 @@ namespace Project_Starlord.Controllers
     {
         private readonly MyDbContext _context;
 
+        public TripController(MyDbContext context)
+        {
+            _context = context;
+        }
+
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<TripModel>> PostTripModel(TripModel trip)
