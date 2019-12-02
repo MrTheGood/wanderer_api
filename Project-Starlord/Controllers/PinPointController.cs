@@ -19,24 +19,9 @@ namespace Project_Starlord.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("GetPinPoints")]
-        public async Task<ActionResult<List<PinPointModel>>> GetPinPoints(int userId)
+        public async Task<ActionResult<List<PinPointModel>>> GetPinPoints(int tripId)
         {
-
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
-
-            if (user == null)
-            {
-                return BadRequest();
-            }
-
-            var trips = _context.Trips.Where(x => x.User == user);
-
-            if (!trips.Any())
-            {
-                return BadRequest();
-            }
-
-            var pinPoints = _context.PinPoints.Where(x => trips.Contains(x.Trip));
+            var pinPoints = _context.PinPoints.Where(x => x.TripId == tripId);
 
             return pinPoints.ToList();
         }
