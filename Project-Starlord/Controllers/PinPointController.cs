@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Project_Starlord.Data;
 using Project_Starlord.Models;
 
@@ -23,12 +24,12 @@ namespace Project_Starlord.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("GetPinPoints")]
-        public async Task<ActionResult<List<PinPointModel>>> GetPinPoints(int tripId)
+        [Route("GetPinPoints/{tripId}")]
+        public async Task<ActionResult<string>> GetPinPoints(int tripId)
         {
-            var pinPoints = _context.PinPoints.Where(x => x.TripId == tripId);
+            var pinPoints = _context.PinPoints.Where(x => x.TripId == tripId).ToList();
 
-            return pinPoints.ToList();
+            return JsonConvert.SerializeObject(pinPoints);
         }
 
         [AllowAnonymous]

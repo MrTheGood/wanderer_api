@@ -13,6 +13,5 @@ namespace Project_Starlord.Models
         public DateTime TimestampTo { get; set; }
         [Required]
         public int UserId { get; set; }
-        public UserModel User { get; set; }
     }
 }
