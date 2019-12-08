@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_Starlord.Data;
 
 namespace Project_Starlord.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191208221524_add-follower-system")]
+    partial class addfollowersystem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,7 +78,7 @@ namespace Project_Starlord.Migrations
                             Id = 1,
                             Latitude = 50m,
                             Longitude = 20m,
-                            Timestamp = new DateTime(2019, 12, 5, 11, 53, 53, 962, DateTimeKind.Local).AddTicks(1370),
+                            Timestamp = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(6731),
                             TripId = 1
                         },
                         new
@@ -84,7 +86,7 @@ namespace Project_Starlord.Migrations
                             Id = 2,
                             Latitude = 40m,
                             Longitude = 60m,
-                            Timestamp = new DateTime(2019, 12, 5, 11, 53, 53, 962, DateTimeKind.Local).AddTicks(3361),
+                            Timestamp = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(8483),
                             TripId = 1
                         },
                         new
@@ -92,7 +94,7 @@ namespace Project_Starlord.Migrations
                             Id = 3,
                             Latitude = 300m,
                             Longitude = 12m,
-                            Timestamp = new DateTime(2019, 12, 5, 11, 53, 53, 962, DateTimeKind.Local).AddTicks(3420),
+                            Timestamp = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(8521),
                             TripId = 1
                         },
                         new
@@ -100,7 +102,7 @@ namespace Project_Starlord.Migrations
                             Id = 4,
                             Latitude = 280m,
                             Longitude = 47m,
-                            Timestamp = new DateTime(2019, 12, 5, 11, 53, 53, 962, DateTimeKind.Local).AddTicks(3425),
+                            Timestamp = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(8526),
                             TripId = 1
                         },
                         new
@@ -108,7 +110,7 @@ namespace Project_Starlord.Migrations
                             Id = 5,
                             Latitude = 792m,
                             Longitude = 147m,
-                            Timestamp = new DateTime(2019, 12, 5, 11, 53, 53, 962, DateTimeKind.Local).AddTicks(3429),
+                            Timestamp = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(8530),
                             TripId = 2
                         },
                         new
@@ -116,7 +118,7 @@ namespace Project_Starlord.Migrations
                             Id = 6,
                             Latitude = 123m,
                             Longitude = 862m,
-                            Timestamp = new DateTime(2019, 12, 5, 11, 53, 53, 962, DateTimeKind.Local).AddTicks(3443),
+                            Timestamp = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(8537),
                             TripId = 2
                         },
                         new
@@ -124,7 +126,7 @@ namespace Project_Starlord.Migrations
                             Id = 7,
                             Latitude = 1200m,
                             Longitude = 1300m,
-                            Timestamp = new DateTime(2019, 12, 5, 11, 53, 53, 962, DateTimeKind.Local).AddTicks(3448),
+                            Timestamp = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(8541),
                             TripId = 2
                         });
                 });
@@ -176,6 +178,8 @@ namespace Project_Starlord.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Trips");
 
                     b.HasData(
@@ -183,7 +187,7 @@ namespace Project_Starlord.Migrations
                         {
                             Id = 1,
                             TimestampFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimestampTo = new DateTime(2019, 12, 5, 11, 53, 53, 957, DateTimeKind.Local).AddTicks(5361),
+                            TimestampTo = new DateTime(2019, 12, 8, 23, 15, 23, 938, DateTimeKind.Local).AddTicks(1811),
                             TripName = "trip1",
                             UserId = 1
                         },
@@ -191,7 +195,7 @@ namespace Project_Starlord.Migrations
                         {
                             Id = 2,
                             TimestampFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimestampTo = new DateTime(2019, 12, 5, 11, 53, 53, 961, DateTimeKind.Local).AddTicks(7635),
+                            TimestampTo = new DateTime(2019, 12, 8, 23, 15, 23, 949, DateTimeKind.Local).AddTicks(4185),
                             TripName = "trip2",
                             UserId = 2
                         });
@@ -227,14 +231,14 @@ namespace Project_Starlord.Migrations
                         {
                             Id = 2,
                             Email = "007@hr.nl",
-                            Password = "/tosKJRV4COUnemgqaAsMx4O8scSMJ5ocqPdy3mYJ5ZUn2mW",
+                            Password = "ao+3Gm/c78eiT4C7i7GFIF+iXuBDx88Agl1mlF1q7HuLeavy",
                             Username = "SecretAgent"
                         },
                         new
                         {
                             Id = 1,
                             Email = "admin@admin.nl",
-                            Password = "xh+TXWUEQyYnE0U/sXhuaVrFCIC27Xmfus5x09Yf49GIySFL",
+                            Password = "Un0fkDvTt0TYw7Vx08dhD+8rOS6vzU1mUbZIrPXTefjOq2ko",
                             Username = "Admin"
                         });
                 });
@@ -244,6 +248,15 @@ namespace Project_Starlord.Migrations
                     b.HasOne("Project_Starlord.Models.TripModel", "Trip")
                         .WithMany()
                         .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Project_Starlord.Models.TripModel", b =>
+                {
+                    b.HasOne("Project_Starlord.Models.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
