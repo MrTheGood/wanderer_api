@@ -16,6 +16,7 @@ namespace Project_Starlord.Data
         public DbSet<ResetTokenModel> ResetTokens { get; set; }
         public DbSet<TripModel> Trips { get; set; }
         public DbSet<PinPointModel> PinPoints { get; set; }
+        public DbSet<FollowerModel> Followers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -131,6 +132,16 @@ namespace Project_Starlord.Data
             });
 
             modelBuilder.Entity<PinPointModel>().HasData(pinpoints);
+
+            List<FollowerModel> followers = new List<FollowerModel>();
+
+            followers.Add(new FollowerModel { 
+                Id = 1,
+                FollowerId = 1,
+                FollowedId = 2
+            });
+
+            modelBuilder.Entity<FollowerModel>().HasData(followers);
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project_Starlord.Data;
@@ -54,14 +53,29 @@ namespace Project_Starlord.Controllers
         [Route("GetTrips/{userId}")]
         public async Task<ActionResult<string>> GetTrips(int userId)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var trips = _context.Trips.Where(x => x.UserId == userId);
 
-            if (user == null)
+            if (!trips.Any())
             {
                 return BadRequest();
             }
 
-            var trips = _context.Trips.Where(x => x.UserId == user.Id).ToList();
+            return JsonConvert.SerializeObject(trips.ToList());
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("GetFollowerTrips/{userId}")]
+        public async Task<ActionResult<string>> GetFollowerTrips(int userId)
+        {
+            var followers = _context.Followers.Where(x => x.FollowerId == userId).Select(x => x.FollowedId);
+
+            if (followers == null)
+            {
+                return BadRequest();
+            }
+
+            var trips = _context.Trips.Where(x => followers.Contains(x.UserId));
 
             if (!trips.Any())
             {
