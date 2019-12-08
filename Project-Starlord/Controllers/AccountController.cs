@@ -155,7 +155,7 @@ namespace Project_Starlord.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("Search")]
+        [Route("Search/{filterValue}")]
         public async Task<ActionResult<string>> SearchUser(string filterValue)
         {
             if (filterValue == null)
@@ -163,7 +163,7 @@ namespace Project_Starlord.Controllers
                 filterValue = "";
             }
 
-            var userModels = await _context.Users.Where(x => x.Username.Contains(filterValue)).ToListAsync();
+            var userModels = _context.Users.Where(x => x.Username.Contains(filterValue)).ToList();
 
             if (!userModels.Any())
             {
@@ -181,7 +181,7 @@ namespace Project_Starlord.Controllers
         }
 
         [HttpPost]
-        [Route("ForgotPassword")]
+        [Route("ForgotPassword/{email}")]
         public async Task<ActionResult<IActionResult>> ForgotPassword(string email)
         {
             if (String.IsNullOrWhiteSpace(email))
@@ -219,6 +219,7 @@ namespace Project_Starlord.Controllers
             return NotFound();
         }
 
+        //TODO Model for saver password protection
         [HttpGet]
         [Route("ResetPassword")]
         public async Task<ActionResult<UserModel>> ResetPassword(int id, string resetToken,

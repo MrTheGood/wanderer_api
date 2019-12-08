@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Project_Starlord.Data;
 using Project_Starlord.Models;
 
@@ -49,10 +51,9 @@ namespace Project_Starlord.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("GetTrips")]
-        public async Task<ActionResult<List<TripModel>>> GetTrips(int userId)
+        [Route("GetTrips/{userId}")]
+        public async Task<ActionResult<string>> GetTrips(int userId)
         {
-
             var user = _context.Users.FirstOrDefault(x => x.Id == userId);
 
             if (user == null)
@@ -60,14 +61,14 @@ namespace Project_Starlord.Controllers
                 return BadRequest();
             }
 
-            var trips = _context.Trips.Where(x => x.User == user);
+            var trips = _context.Trips.Where(x => x.UserId == user.Id).ToList();
 
             if (!trips.Any())
             {
                 return BadRequest();
             }
 
-            return trips.ToList();
+            return JsonConvert.SerializeObject(trips);
         }
     }
 }
