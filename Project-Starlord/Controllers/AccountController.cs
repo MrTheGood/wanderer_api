@@ -180,6 +180,14 @@ namespace Project_Starlord.Controllers
             return JsonConvert.SerializeObject(result);
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Search")]
+        public async Task<ActionResult<string>> SearchUserNoInput()
+        {
+            return SearchUser("").Result;
+        }
+
         [HttpPost]
         [Route("ForgotPassword/{email}")]
         public async Task<ActionResult<IActionResult>> ForgotPassword(string email)
