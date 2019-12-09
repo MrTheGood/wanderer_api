@@ -24,8 +24,22 @@ namespace Project_Starlord.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<FollowerModel>> PostFollowerModel(FollowerModel follower)
+        [Route("PostFollower/{userToken}/{followId}")]
+        public async Task<ActionResult<FollowerModel>> PostFollower(string userToken, int followedId)
         {
+            int userId = _context.Users.Where(x => x.Token == userToken).Select(x => x.Id).FirstOrDefault();
+
+            if (userId == 0)
+            {
+                return BadRequest();
+            }
+
+            FollowerModel follower = new FollowerModel
+            {
+                FollowerId = userId,
+                FollowedId = followedId
+            };
+
             _context.Followers.Add(follower);
             await _context.SaveChangesAsync();
 
