@@ -65,12 +65,19 @@ namespace Project_Starlord.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("GetFollowerTrips/{userId}")]
-        public async Task<ActionResult<string>> GetFollowerTrips(int userId)
+        [Route("GetFollowerTrips/{userToken}")]
+        public async Task<ActionResult<string>> GetFollowerTrips(string userToken)
         {
+            var userId = _context.Users.Where(x => x.Token == userToken).Select(x => x.Id).FirstOrDefault();
+
+            if (userId == 0)
+            {
+                return BadRequest();
+            }
+
             var followers = _context.Followers.Where(x => x.FollowerId == userId).Select(x => x.FollowedId);
 
-            if (followers == null)
+            if (!followers.Any())
             {
                 return BadRequest();
             }
