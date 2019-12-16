@@ -24,7 +24,7 @@ namespace Project_Starlord.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("PostFollower/{userToken}/{followId}")]
+        [Route("PostFollower/{userToken}/{followedId}")]
         public async Task<ActionResult<FollowerModel>> PostFollower(string userToken, int followedId)
         {
             int userId = _context.Users.Where(x => x.Token == userToken).Select(x => x.Id).FirstOrDefault();
