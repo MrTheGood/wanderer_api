@@ -22,8 +22,9 @@ namespace Project_Starlord.Controllers
             _context = context;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
+        [Route("PostTripsWithOutPinPoints")]
         public async Task<ActionResult<TripModel>> PostTripModel(TripModel trip)
         {
             _context.Trips.Add(trip);
@@ -91,5 +92,30 @@ namespace Project_Starlord.Controllers
 
             return JsonConvert.SerializeObject(trips);
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("PostTrip")]
+        public async Task<ActionResult<TripModel>> PostTripWithPinpoints(ReceivedInfo model)
+        {
+            //_context.Trips.Add(trip);
+            //await _context.SaveChangesAsync();
+
+            //return trip;
+
+            return null;
+        }
+    }
+
+    public class ReceivedInfo
+    {
+        public string Name { get; set; }
+        public Titudes Pinpoints { get; set; }
+    }
+
+    public class Titudes
+    {
+        public float[] Longtitude { get; set; }
+        public float[] Latititude { get; set; }
     }
 }
