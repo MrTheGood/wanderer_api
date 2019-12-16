@@ -29,7 +29,8 @@ namespace Project_Starlord.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserModel>> GetUserModel(int id)
+        [Route("GetUserModel")]
+        public async Task<ActionResult<string>> GetUserModel(int id)
         {
             var userModel = await _context.Users.FindAsync(id);
 
@@ -38,7 +39,7 @@ namespace Project_Starlord.Controllers
                 return NotFound();
             }
 
-            return userModel;
+            return JsonConvert.SerializeObject(userModel.WithoutPassword());
         }
 
         // PUT: api/UserModels/5
