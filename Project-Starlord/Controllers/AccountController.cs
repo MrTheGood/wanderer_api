@@ -27,9 +27,9 @@ namespace Project_Starlord.Controllers
             _userService = userService;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet("{id}")]
-        [Route("GetUserModel")]
+        [Route("GetUserModel/{id}")]
         public async Task<ActionResult<string>> GetUserModel(int id)
         {
             var userModel = await _context.Users.FindAsync(id);
