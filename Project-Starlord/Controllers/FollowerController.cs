@@ -22,7 +22,7 @@ namespace Project_Starlord.Controllers
             _context = context;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
         [Route("PostFollower/{userToken}/{followId}")]
         public async Task<ActionResult<FollowerModel>> PostFollower(string userToken, int followedId)
