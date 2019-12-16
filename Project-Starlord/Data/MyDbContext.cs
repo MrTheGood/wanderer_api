@@ -64,6 +64,15 @@ namespace Project_Starlord.Data
                 Id = 2
             });
 
+            trips.Add(new TripModel
+            {
+                TimestampFrom = DateTime.Now,
+                TimestampTo = DateTime.Now,
+                TripName = "Tyas zijn vakantie",
+                UserId = 2,
+                Id = 3
+            });
+
             modelBuilder.Entity<TripModel>().HasData(trips);
 
             List<PinPointModel> pinpoints = new List<PinPointModel>();
@@ -129,6 +138,42 @@ namespace Project_Starlord.Data
                 Timestamp = DateTime.Now,
                 TripId = 2,
                 Id = 7
+            });
+
+            pinpoints.Add(new PinPointModel
+            {
+                Latitude = 51,
+                Longitude = 4,
+                Timestamp = DateTime.Now,
+                TripId = 3,
+                Id = 8
+            });
+
+            pinpoints.Add(new PinPointModel
+            {
+                Latitude = 55,
+                Longitude = 18,
+                Timestamp = DateTime.Now,
+                TripId = 3,
+                Id = 9
+            });
+
+            pinpoints.Add(new PinPointModel
+            {
+                Latitude = 56,
+                Longitude = 12,
+                Timestamp = DateTime.Now,
+                TripId = 3,
+                Id = 10
+            });
+
+            pinpoints.Add(new PinPointModel
+            {
+                Latitude = 51,
+                Longitude = 4,
+                Timestamp = DateTime.Now,
+                TripId = 3,
+                Id = 11
             });
 
             modelBuilder.Entity<PinPointModel>().HasData(pinpoints);
