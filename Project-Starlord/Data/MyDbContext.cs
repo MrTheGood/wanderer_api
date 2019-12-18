@@ -83,7 +83,8 @@ namespace Project_Starlord.Data
                 Longitude = 20,
                 Timestamp = DateTime.Now,
                 TripId = 1,
-                Id = 1
+                Id = 1,
+                Sequence = 1
             });
 
             pinpoints.Add(new PinPointModel
@@ -92,7 +93,8 @@ namespace Project_Starlord.Data
                 Longitude = 60,
                 Timestamp = DateTime.Now,
                 TripId = 1,
-                Id = 2
+                Id = 2,
+                Sequence = 3
             });
 
             pinpoints.Add(new PinPointModel
@@ -101,7 +103,8 @@ namespace Project_Starlord.Data
                 Longitude = 12,
                 Timestamp = DateTime.Now,
                 TripId = 1,
-                Id = 3
+                Id = 3,
+                Sequence = 2
             });
 
             pinpoints.Add(new PinPointModel
@@ -110,7 +113,8 @@ namespace Project_Starlord.Data
                 Longitude = 47,
                 Timestamp = DateTime.Now,
                 TripId = 1,
-                Id = 4
+                Id = 4,
+                Sequence = 4
             });
 
             pinpoints.Add(new PinPointModel
@@ -119,7 +123,8 @@ namespace Project_Starlord.Data
                 Longitude = 147,
                 Timestamp = DateTime.Now,
                 TripId = 2,
-                Id = 5
+                Id = 5,
+                Sequence = 2
             });
 
             pinpoints.Add(new PinPointModel
@@ -128,7 +133,8 @@ namespace Project_Starlord.Data
                 Longitude = 862,
                 Timestamp = DateTime.Now,
                 TripId = 2,
-                Id = 6
+                Id = 6,
+                Sequence = 1
             });
 
             pinpoints.Add(new PinPointModel
@@ -137,7 +143,8 @@ namespace Project_Starlord.Data
                 Longitude = 1300,
                 Timestamp = DateTime.Now,
                 TripId = 2,
-                Id = 7
+                Id = 7,
+                Sequence = 3
             });
 
             pinpoints.Add(new PinPointModel
@@ -146,7 +153,8 @@ namespace Project_Starlord.Data
                 Longitude = 4,
                 Timestamp = DateTime.Now,
                 TripId = 3,
-                Id = 8
+                Id = 8,
+                Sequence = 1
             });
 
             pinpoints.Add(new PinPointModel
@@ -155,7 +163,8 @@ namespace Project_Starlord.Data
                 Longitude = 18,
                 Timestamp = DateTime.Now,
                 TripId = 3,
-                Id = 9
+                Id = 9,
+                Sequence = 3
             });
 
             pinpoints.Add(new PinPointModel
@@ -164,7 +173,8 @@ namespace Project_Starlord.Data
                 Longitude = 12,
                 Timestamp = DateTime.Now,
                 TripId = 3,
-                Id = 10
+                Id = 10,
+                Sequence = 4
             });
 
             pinpoints.Add(new PinPointModel
@@ -173,7 +183,8 @@ namespace Project_Starlord.Data
                 Longitude = 4,
                 Timestamp = DateTime.Now,
                 TripId = 3,
-                Id = 11
+                Id = 11,
+                Sequence = 2
             });
 
             modelBuilder.Entity<PinPointModel>().HasData(pinpoints);

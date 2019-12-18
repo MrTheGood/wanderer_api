@@ -110,12 +110,12 @@ namespace Project_Starlord.Controllers
     public class ReceivedInfo
     {
         public string Name { get; set; }
-        public Titudes Pinpoints { get; set; }
+        public Titudes[] Pinpoints { get; set; }
     }
 
     public class Titudes
     {
-        public float[] Longtitude { get; set; }
-        public float[] Latititude { get; set; }
+        public float[] Long { get; set; }
+        public float[] Lat { get; set; }
     }
 }

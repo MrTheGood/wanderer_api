@@ -15,5 +15,7 @@ namespace Project_Starlord.Models
         [Required]
         public decimal Latitude { get; set; }
         public DateTime Timestamp { get; set; }
+        [Required]
+        public int Sequence { get; set; }
     }
 }
