@@ -29,6 +29,9 @@ namespace Project_Starlord.Controllers
         {
             var pinPoints = _context.PinPoints.Where(x => x.TripId == tripId).ToList();
 
+            pinPoints.Select(x => { x.Latitude = x.Latitude / 1000000000000000; return x; }).ToList();
+            pinPoints.Select(x => { x.Longitude = x.Longitude / 1000000000000000; return x; }).ToList();
+
             return JsonConvert.SerializeObject(pinPoints);
         }
 
