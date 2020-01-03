@@ -124,8 +124,8 @@ namespace Project_Starlord.Controllers
             {
                 pinpoints.Add(new PinPointModel
                 {
-                    Latitude = modelPinpoint.Lat * 1000000000000000,
-                    Longitude = modelPinpoint.Long * 1000000000000000,
+                    Latitude = modelPinpoint.Lat * 1000000000000,
+                    Longitude = modelPinpoint.Long * 1000000000000,
                     Sequence = i,
                     Timestamp = DateTime.Now,
                     TripId = trip.Id
@@ -137,7 +137,7 @@ namespace Project_Starlord.Controllers
             _context.PinPoints.AddRange(pinpoints);
             await _context.SaveChangesAsync();
 
-            return null;
+            return Ok();
         }
     }
 
