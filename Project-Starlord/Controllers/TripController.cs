@@ -98,10 +98,44 @@ namespace Project_Starlord.Controllers
         [Route("PostTrip")]
         public async Task<ActionResult<TripModel>> PostTripWithPinpoints(ReceivedInfo model)
         {
-            //_context.Trips.Add(trip);
-            //await _context.SaveChangesAsync();
+            var user = _context.Users.FirstOrDefault(x => x.Token == model.Token);
 
-            //return trip;
+            if (user == null)
+            {
+                return NotFound("No user found with token!");
+            }
+
+            var trip = new TripModel
+            {
+                TimestampFrom = model.From,
+                TimestampTo = model.To,
+                TripName = model.Name,
+                UserId = user.Id
+            };
+
+            _context.Trips.Add(trip);
+            _context.SaveChanges();
+
+            List<PinPointModel> pinpoints = new List<PinPointModel>();
+
+            int i = 0;
+
+            foreach (Titudes modelPinpoint in model.Pinpoints)
+            {
+                pinpoints.Add(new PinPointModel
+                {
+                    Latitude = modelPinpoint.Lat,
+                    Longitude = modelPinpoint.Long,
+                    Sequence = i,
+                    Timestamp = DateTime.Now,
+                    TripId = trip.Id
+                });
+
+                i++;
+            }
+
+            _context.PinPoints.AddRange(pinpoints);
+            await _context.SaveChangesAsync();
 
             return null;
         }
@@ -110,12 +144,15 @@ namespace Project_Starlord.Controllers
     public class ReceivedInfo
     {
         public string Name { get; set; }
+        public string Token { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
         public Titudes[] Pinpoints { get; set; }
     }
 
     public class Titudes
     {
-        public float[] Long { get; set; }
-        public float[] Lat { get; set; }
+        public decimal Long { get; set; }
+        public decimal Lat { get; set; }
     }
 }
