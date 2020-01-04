@@ -79,8 +79,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 50,
-                Longitude = 20,
+                Latitude = 50000000000000,
+                Longitude = 20000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 1,
                 Id = 1,
@@ -89,8 +89,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 40,
-                Longitude = 60,
+                Latitude = 40000000000000,
+                Longitude = 60000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 1,
                 Id = 2,
@@ -99,8 +99,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 300,
-                Longitude = 12,
+                Latitude = 300000000000000,
+                Longitude = 12000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 1,
                 Id = 3,
@@ -109,8 +109,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 280,
-                Longitude = 47,
+                Latitude = 280000000000000,
+                Longitude = 47000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 1,
                 Id = 4,
@@ -119,8 +119,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 792,
-                Longitude = 147,
+                Latitude = 792000000000000,
+                Longitude = 147000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 2,
                 Id = 5,
@@ -129,8 +129,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 123,
-                Longitude = 862,
+                Latitude = 123000000000000,
+                Longitude = 862000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 2,
                 Id = 6,
@@ -139,8 +139,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 1200,
-                Longitude = 1300,
+                Latitude = 1200000000000000,
+                Longitude = 1300000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 2,
                 Id = 7,
@@ -149,8 +149,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 51,
-                Longitude = 4,
+                Latitude = 51000000000000,
+                Longitude = 4000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 3,
                 Id = 8,
@@ -159,8 +159,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 55,
-                Longitude = 18,
+                Latitude = 55000000000000,
+                Longitude = 18000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 3,
                 Id = 9,
@@ -169,8 +169,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 56,
-                Longitude = 12,
+                Latitude = 56000000000000,
+                Longitude = 12000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 3,
                 Id = 10,
@@ -179,8 +179,8 @@ namespace Project_Starlord.Data
 
             pinpoints.Add(new PinPointModel
             {
-                Latitude = 51,
-                Longitude = 4,
+                Latitude = 51000000000000,
+                Longitude = 4000000000000,
                 Timestamp = DateTime.Now,
                 TripId = 3,
                 Id = 11,
