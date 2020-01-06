@@ -12,11 +12,11 @@ namespace Project_Starlord.Data
         {
         }
 
-        public DbSet<UserModel> Users { get; set; }
-        public DbSet<ResetTokenModel> ResetTokens { get; set; }
-        public DbSet<TripModel> Trips { get; set; }
-        public DbSet<PinPointModel> PinPoints { get; set; }
-        public DbSet<FollowerModel> Followers { get; set; }
+        public virtual DbSet<UserModel> Users { get; set; }
+        public virtual DbSet<ResetTokenModel> ResetTokens { get; set; }
+        public virtual DbSet<TripModel> Trips { get; set; }
+        public virtual DbSet<PinPointModel> PinPoints { get; set; }
+        public virtual DbSet<FollowerModel> Followers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
