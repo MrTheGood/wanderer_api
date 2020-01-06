@@ -98,6 +98,11 @@ namespace Project_Starlord.Controllers
         [Route("PostTrip")]
         public async Task<ActionResult<TripModel>> PostTripWithPinpoints(ReceivedInfo model)
         {
+            if (model.Pinpoints == null)
+            {
+                return BadRequest("no pinpoints found!");
+            }
+
             var user = _context.Users.FirstOrDefault(x => x.Token == model.Token);
 
             if (user == null)
