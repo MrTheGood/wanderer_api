@@ -29,8 +29,8 @@ namespace Project_Starlord.Controllers
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        [Route("GetUserModel/{id}")]
-        public async Task<ActionResult<string>> GetUserModel(int id)
+        [Route("GetUserModel/{id}/{token}")]
+        public async Task<ActionResult<string>> GetUserModel(int id, string token)
         {
             var userModel = await _context.Users.FindAsync(id);
 
@@ -39,7 +39,30 @@ namespace Project_Starlord.Controllers
                 return NotFound();
             }
 
-            return JsonConvert.SerializeObject(userModel.WithoutPassword());
+            var currentUser = _context.Users.Where(x => x.Token == token).FirstOrDefault();
+
+            if (currentUser == null) {
+                return NotFound("Current user not found");
+            }
+
+            var isFollowing = _context.Followers.Where(x => x.FollowedId == id && x.FollowerId == currentUser.Id).Any();
+
+            var result = new UsermodelExtender()
+            {
+                Email = userModel.Email,
+                Id = userModel.Id,
+                IsFollowing = isFollowing,
+                Token = "",
+                Username = userModel.Username,
+                Password = ""
+            };
+
+            return JsonConvert.SerializeObject(result);
+        }
+
+        private class UsermodelExtender : UserModel
+        {
+            public bool IsFollowing { get; set; } = false;
         }
 
         // PUT: api/UserModels/5
@@ -187,6 +210,28 @@ namespace Project_Starlord.Controllers
         public async Task<ActionResult<string>> SearchUserNoInput()
         {
             return SearchUser("").Result;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("SearchFollowers/{token}")]
+        public async Task<ActionResult<string>> SearchFollowers(string token)
+        {
+            var currentUserId = _context.Users.Where(x => x.Token == token).Select(x => x.Id).FirstOrDefault();
+
+            if (currentUserId == 0) {
+                return NotFound();
+            }
+
+            IQueryable<int> followedUserIds = _context.Followers.Where(x => x.FollowerId == currentUserId).Select(x => x.FollowedId);
+
+            if (followedUserIds == null) {
+                return NotFound();
+            }
+
+            List<UserModel> followedUsers = _context.Users.Where(x => followedUserIds.Contains(x.Id)).Select(x => x.WithoutPassword()).ToList();
+
+            return JsonConvert.SerializeObject(followedUsers);
         }
 
         [HttpPost]
