@@ -42,6 +42,8 @@ namespace Project_Starlord.Controllers
                     _context.Followers.Remove(a);
                 }
 
+                _context.SaveChanges();
+
                 return null;
             }
 
