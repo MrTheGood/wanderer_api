@@ -89,18 +89,10 @@ namespace Project_Starlord.Controllers.Tests
 
             var service = new AccountController(mockContext.Object, userService);
 
-            var exceptionThrown = false;
-
-            try
-            {
-                var result = service.Login(new UserModel()
+            var result = service.Login(new UserModel()
                 { Id = 1, Token = "aa", Username = "user", Password = "pass2", Email = "@gmail" });
-            }catch(Exception ex)
-            {
-                exceptionThrown = true;
-            }
 
-            Assert.IsTrue(exceptionThrown);
+            Assert.AreEqual(result.Status, System.Threading.Tasks.TaskStatus.Faulted);
         }
 
         [TestMethod]
