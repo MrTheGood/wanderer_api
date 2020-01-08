@@ -34,6 +34,17 @@ namespace Project_Starlord.Controllers
                 return BadRequest();
             }
 
+            var followRecord = _context.Followers.Where(x => x.FollowedId == followedId && x.FollowerId == userId);
+
+            if (followRecord.Any())
+            {
+                foreach (var a in followRecord) {
+                    _context.Followers.Remove(a);
+                }
+
+                return null;
+            }
+
             FollowerModel follower = new FollowerModel
             {
                 FollowerId = userId,

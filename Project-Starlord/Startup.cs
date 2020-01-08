@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Project_Starlord.Data;
 using Project_Starlord.Helpers;
-using Swashbuckle.AspNetCore.Swagger;
-using SwaggerOptions = Project_Starlord.Options.SwaggerOptions;
 using Microsoft.IdentityModel.Tokens;
 using Project_Starlord.Services;
 

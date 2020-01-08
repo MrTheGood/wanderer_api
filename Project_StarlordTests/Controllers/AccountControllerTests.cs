@@ -20,9 +20,9 @@ namespace Project_Starlord.Controllers.Tests
         [TestMethod]
         public void LoginTest()
         {
-            var appSettingsClass = new AppSettings() { Secret = "" };
+            var appSettingsClass = new AppSettings() { Secret = "1xNQ0brDZ6TwznGi9p58WRI2gfLJXcvq" };
 
-            var appSettings = new Mock<IOptions<AppSettings>>();
+            IOptions<AppSettings> appSettings = Options.Create(appSettingsClass);
 
             var data = new List<UserModel>
             {
@@ -46,7 +46,7 @@ namespace Project_Starlord.Controllers.Tests
             mockContext.SetupProperty(x => x.Trips);
             mockContext.SetupProperty(x => x.PinPoints);
 
-            var userService = new UserService(appSettings.Object, mockContext.Object);
+            var userService = new UserService(appSettings, mockContext.Object);
 
             var service = new AccountController(mockContext.Object, userService);
 
@@ -57,10 +57,11 @@ namespace Project_Starlord.Controllers.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnauthorizedAccessException))]
         public void LoginWrongPasswordTest()
         {
-            var appSettings = new Mock<IOptions<AppSettings>>();
+            var appSettingsClass = new AppSettings() { Secret = "1xNQ0brDZ6TwznGi9p58WRI2gfLJXcvq" };
+
+            IOptions<AppSettings> appSettings = Options.Create(appSettingsClass);
 
             var data = new List<UserModel>
             {
@@ -84,18 +85,30 @@ namespace Project_Starlord.Controllers.Tests
             mockContext.SetupProperty(x => x.Trips);
             mockContext.SetupProperty(x => x.PinPoints);
 
-            var userService = new UserService(appSettings.Object, mockContext.Object);
+            var userService = new UserService(appSettings, mockContext.Object);
 
             var service = new AccountController(mockContext.Object, userService);
 
-            var result = service.Login(new UserModel()
-            { Id = 1, Token = "aa", Username = "user", Password = "pass2", Email = "@gmail" });
+            var exceptionThrown = false;
+
+            try
+            {
+                var result = service.Login(new UserModel()
+                { Id = 1, Token = "aa", Username = "user", Password = "pass2", Email = "@gmail" });
+            }catch(Exception ex)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
         }
 
         [TestMethod]
         public void LoginWrongUsernameTest()
         {
-            var appSettings = new Mock<IOptions<AppSettings>>();
+            var appSettingsClass = new AppSettings() { Secret = "1xNQ0brDZ6TwznGi9p58WRI2gfLJXcvq" };
+
+            IOptions<AppSettings> appSettings = Options.Create(appSettingsClass);
 
             var data = new List<UserModel>
             {
@@ -119,7 +132,7 @@ namespace Project_Starlord.Controllers.Tests
             mockContext.SetupProperty(x => x.Trips);
             mockContext.SetupProperty(x => x.PinPoints);
 
-            var userService = new UserService(appSettings.Object, mockContext.Object);
+            var userService = new UserService(appSettings, mockContext.Object);
 
             var service = new AccountController(mockContext.Object, userService);
 
