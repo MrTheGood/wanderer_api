@@ -32,11 +32,11 @@ namespace Project_Starlord.Controllers
         [Route("GetUserModel/{id}/{token}")]
         public async Task<ActionResult<string>> GetUserModel(int id, string token)
         {
-            var userModel = await _context.Users.FindAsync(id);
+            var userModel = _context.Users.FirstOrDefault(x => x.Id == id);
 
             if (userModel == null)
             {
-                return NotFound();
+                return NotFound("User not found!");
             }
 
             var currentUser = _context.Users.Where(x => x.Token == token).FirstOrDefault();
@@ -174,7 +174,7 @@ namespace Project_Starlord.Controllers
             _context.Users.Add(userModel);
             await _context.SaveChangesAsync();
 
-            return userModel;
+            return userModel.WithoutPassword();
         }
 
         [AllowAnonymous]
@@ -225,7 +225,7 @@ namespace Project_Starlord.Controllers
 
             IQueryable<int> followedUserIds = _context.Followers.Where(x => x.FollowerId == currentUserId).Select(x => x.FollowedId);
 
-            if (followedUserIds == null) {
+            if (!followedUserIds.Any()) {
                 return NotFound();
             }
 
@@ -257,8 +257,7 @@ namespace Project_Starlord.Controllers
                 new RNGCryptoServiceProvider().GetBytes(resetTokenBytes = new byte[16]);
                 model.Token = Convert.ToBase64String(resetTokenBytes);
 
-                //todo: send reset email or whatever
-                // i really don't know what to do here..
+                //TODO: send reset email or whatever
                 string message =
                     "Hi! To reset your password you need to open the following link within 24h: \n\n https://wanderer.app/passwordReset?token=" +
                     model.Token;

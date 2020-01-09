@@ -35,7 +35,7 @@ namespace Project_Starlord.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TripModel>> DeleteUserModel(int id)
+        public async Task<ActionResult<TripModel>> DeleteTripModel(int id)
         {
             var tripModel = await _context.Trips.FindAsync(id);
             if (tripModel == null)
