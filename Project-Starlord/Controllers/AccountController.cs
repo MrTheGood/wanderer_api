@@ -169,6 +169,13 @@ namespace Project_Starlord.Controllers
                 return null;
             }
 
+            var emailAlreadyExists = _context.Users.Any(x => x.Email == userModel.Email);
+
+            if (emailAlreadyExists)
+            {
+                return null;
+            }
+
             userModel.HashPassword();
 
             _context.Users.Add(userModel);

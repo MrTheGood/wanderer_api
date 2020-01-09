@@ -510,6 +510,48 @@ namespace Project_Starlord.Controllers.Tests
         }
 
         [TestMethod()]
+        public void RegisterWithExcisiingEmailTest()
+        {
+            var appSettingsClass = new AppSettings() { Secret = "1xNQ0brDZ6TwznGi9p58WRI2gfLJXcvq" };
+
+            IOptions<AppSettings> appSettings = Options.Create(appSettingsClass);
+
+            var data = new List<UserModel>
+            {
+                new UserModel()
+                    {Id = 1, Token = "aa", Username = "user", Password = "pass", Email = "@gmail"}.HashPassword()
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<UserModel>>();
+
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<UserModel>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            var options = new DbContextOptionsBuilder<MyDbContext>()
+                .Options;
+
+            var mockContext = new Mock<MyDbContext>(options);
+            mockContext.Setup(x => x.Users).Returns(mockSet.Object);
+
+            var userService = new UserService(appSettings, mockContext.Object);
+
+            var service = new AccountController(mockContext.Object, userService);
+
+            var newUser = new UserModel()
+            {
+                Password = "blaat",
+                Email = "@gmail",
+                Username = "Codeaur"
+            };
+
+            var result = service.Register(newUser);
+
+            Assert.IsNull(result.Result);
+        }
+
+        [TestMethod()]
         public void SearchUserTest()
         {
             var appSettingsClass = new AppSettings() { Secret = "1xNQ0brDZ6TwznGi9p58WRI2gfLJXcvq" };
